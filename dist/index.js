@@ -60532,7 +60532,7 @@ async function run() {
     const token = core.getInput('token')
     const interval = core.getInput('interval')
     let branch = core.getInput('branch')
-    const pr_branch = github_context.event && github_context.event.pull_request && github_context.event.pull_request.head.ref;
+    const pr_branch = github_context.payload && github_context.payload.pull_request && github_context.payload.pull_request.head.ref;
     core.info(`Context: ${JSON.stringify(github_context, null, ' ')}`);
     if (pr_branch) {
       core.info(`Using PR branch ${pr_branch} instead of ${branch}`);
