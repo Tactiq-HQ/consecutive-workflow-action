@@ -9,7 +9,12 @@ async function run() {
   try {
     const token = core.getInput('token')
     const interval = core.getInput('interval')
-    const branch = core.getInput('branch')
+    let branch = core.getInput('branch')
+    const pr_branch = github.context.pull_request?.head?.ref;
+    if (pr_branch) {
+      core.info(`Using PR branch ${pr_branch} instead of ${branch}`);
+      branch = pr_branch;
+    }
 
     const octokit = github.getOctokit(token)
 
