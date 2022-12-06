@@ -10,7 +10,7 @@ async function run() {
     const token = core.getInput('token')
     const interval = core.getInput('interval')
     let branch = core.getInput('branch')
-    const pr_branch = github.context.pull_request?.head?.ref;
+    const pr_branch = github.context.event?.pull_request?.head?.ref;
     if (pr_branch) {
       core.info(`Using PR branch ${pr_branch} instead of ${branch}`);
       branch = pr_branch;
