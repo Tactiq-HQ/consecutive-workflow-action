@@ -15,5 +15,5 @@ inputs:
     description: The optional branch name to wait for the status update
     required: false
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
