@@ -9607,12 +9607,21 @@ async function run() {
     const interval = core.getInput('interval')
     let branch = core.getInput('branch')
     const pr_branch = github.context.payload && github.context.payload.pull_request && github.context.payload.pull_request.head.ref;
+    const merge_head_ref = github.context.payload && github.context.payload.merge_group && github.context.payload.merge_group.head_ref;
     
     core.info(`Context: ${JSON.stringify(github.context, null, ' ')}`);
     
     if (pr_branch) {
       core.info(`Using PR branch ${pr_branch}`);
       branch = pr_branch;
+    } else if (merge_head_ref) {
+      core.info(`Merge queue detected`);
+      if (process.env.MQ_BRANCH_NAME) {
+        branch = process.env.MQ_BRANCH_NAME;
+        core.info(`Using PR branch ${branch}`);
+      } else {
+        core.error('No MQ_BRANCH_NAME set, check the calling job');
+      }
     }
 
     const octokit = github.getOctokit(token)
